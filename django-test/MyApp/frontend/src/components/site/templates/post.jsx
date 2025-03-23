@@ -2,7 +2,7 @@ import {Header, } from '../../../components/common/header';
 import {Footer, } from '../../../components/common/footer';
 import {LinkPage, } from '../../../components/button/button_link';
 import {ButtonMainLink, } from '../../../components/button/button_main_link';
-import {getPost, } from '../../../api/api.js';
+import {getTest, } from '../../../api/api.js';
 
 import React, {Component, useState, useEffect, } from 'react';
 import {useParams, } from 'react-router-dom';
@@ -15,14 +15,17 @@ export const Post = (props) => {
     const [date, setDate] = useState([])
     const [time, setTime] = useState([])
 
-    async function getPostData() {
+    async function getData(){
         let response = await fetch(`http://127.0.0.1:8000/blog/requests/${id}/`)
         const post = await response.json()
+        return post
+        }
 
-        return {'title': post.title,
-                'body': post.body,
-                'topic': post.topic}
-    }
+    async function getPost() {
+        return getData({'title': post.title,
+                        'body': post.body,
+                        'topic': post.topic})
+                    }
 
     async function getPostDate(){
 
@@ -33,8 +36,7 @@ export const Post = (props) => {
             ['10', 'Октябрь'], ['11', 'Ноябрь'], ['12', 'Декабрь']
         ])
 
-        let response = await fetch(`http://127.0.0.1:8000/blog/requests/${id}/`)
-        const post = await response.json()
+        const post = await getData()
         const post_date = post.date.split("T")
         const post_time = post_date[1].split(".")[0].split(':')
 
@@ -46,8 +48,7 @@ export const Post = (props) => {
         }
 
         async function getPostTime(){
-            let response = await fetch(`http://127.0.0.1:8000/blog/requests/${id}/`)
-            const post = await response.json()
+            const post = await getPost()
             const post_time = post.date.split("T")[1].split(".")[0].split(':')
             return {'hour': post_time[0],
                     'minute': post_time[1],
@@ -55,7 +56,7 @@ export const Post = (props) => {
             }
 
     useEffect(() => {
-        getPostData().then(post => {setPost(post)})
+        getPost().then(post => {setPost(post)})
         getPostDate().then(date =>{setDate(date)})
         getPostTime().then(time =>{setTime(time)})
                     }, [])

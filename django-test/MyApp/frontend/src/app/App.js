@@ -3,8 +3,6 @@ import logo from '../theme/logo.svg';
 import '../theme/App.css';
 import axios from 'axios';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
-import {connect, useDispatch} from 'react-redux';
-import {store, } from '../store/configureStore';
 import {Main,  } from '../components/site/main';
 import {Scrum, } from '../components/site/scrum';
 import {Blog, } from '../components/site/blog';
@@ -15,9 +13,7 @@ import {Post, } from '../components/site/templates/post';
 import {Auth, } from '../components/site/templates/auth';
 import {Manual, } from '../components/site/manual';
 import {getCookie, } from '../api/csrf-token.js';
-import {apiService, } from'../api/api.js';
 
-import {fetchProducts, } from '../actions/fetchData';
 
 var arr = []
 
@@ -49,7 +45,7 @@ class App extends Component {
                 <Route path="blog" element={<Blog />} />
                     <Route path="article/:id" element={<Post />} />
                 <Route path="regexp" element={<RegExp />} />
-                    <Route path="task/:id" element={<Trainer store={store} />} />
+                    <Route path="task/:id" element={<Trainer  />} />
 
                     <Route path="manual/:id" element={<Manual />} />
                 <Route path="chatbot" element={<ChatBot />} />
@@ -63,18 +59,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-    item: state.products.item,
-    loading: state.products.loading,
-});
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {getDataAction: () => dispatch()}
-}
-
-export default connect(
-mapStateToProps,
-mapDispatchToProps
-)(App);
-//export default App;
+export default App;

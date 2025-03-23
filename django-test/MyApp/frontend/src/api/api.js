@@ -6,18 +6,23 @@ import getCookie from './csrf-token';
 
 const csrftoken = getCookie;
 
-const data = 2;
-function apiService() {
-        let response = fetch('http://127.0.0.1:8000/trainer/requests/1', {
+async function apiService() {
+        let response = await fetch('http://127.0.0.1:8000/blog/requests/1', {
             method: 'POST',
-            headers: {'X-CSRFToken': csrftoken},
-            body: data
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${csrftoken}`,
+            'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ username: "example" }),
+
+
         })
-        const post =  response.json
+        const post =  await response.json
         return post
     }
 
-function getData(endpoint){
+export async function getTest(endpoint){
     return apiService(endpoint);
 }
 

@@ -16,32 +16,13 @@ import '../../theme/css/regexp/style-trainer.css';
         return posts
     }
 
-const NoListResult = ({title}) => {
-        return (
-            <strong>{title}</strong>
-        )
-   }
-
 const BuildPage = () => {
-    const [loading, setLoading] = useState(true)
+
     const [tasks, setTasks] = useState([])
 
 
     useEffect(() => {
-        getList().then(tasks_ => {
-            setTasks(tasks_)
-            setLoading(false)
-        }).catch(error => {
-            alert('Ошибка запроса')
-        })
-    }, [])
-
-    if (loading) {
-        return <>
-            Загрузка...
-        </>
-    }
-
+        getList().then(tasks => {setTasks(tasks)})}, [])
 
     const link_serv = <LinkPage class="menu__link" link="/"
                             name="Главная" />
